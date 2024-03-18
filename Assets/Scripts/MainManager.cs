@@ -37,7 +37,7 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
-        playerNameText.text = "Best Score : "+DataManager.Instance.playerName+" : 0";
+        playerNameText.text = "Best Score : "+DataManager.Instance.playerName+" : "+DataManager.Instance.highScore;
     }
 
     private void Update()
@@ -69,9 +69,15 @@ public class MainManager : MonoBehaviour
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
     }
-
+    public void BackToMenu() {
+        SceneManager.LoadScene(0);
+    }
     public void GameOver()
     {
+        if(m_Points > DataManager.Instance.highScore) {
+            DataManager.Instance.highScore = m_Points;
+        }
+        DataManager.Instance.SaveHighScore();
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
